@@ -36,15 +36,24 @@
                         // scope.$apply();
                     }
                 };
-
+                
+                var editor;
                 if (KindEditor) {
-                    KindEditor.create(editorId, editorConfig);
+                    var editor = KindEditor.create(editorId, editorConfig);
                 }
 
                 ctrl.$parsers.push(function (viewValue) {
                     ctrl.$setValidity('keditor', viewValue);
                     return viewValue;
                 });
+                
+                ctrl.$render = function () {
+                    var content = ctrl.$isEmpty(ctrl.$viewValue) ? '' : ctrl.$viewValue;
+                    if (editor) {
+                        editor.html(content);
+                    }
+                };
+				
             };
 
             return {
